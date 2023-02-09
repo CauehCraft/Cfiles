@@ -1,0 +1,84 @@
+#include<stdio.h>
+#include<stdlib.h>
+//#include<locale.h>
+
+typedef struct pessoa{
+    char nome[50];
+    int idade;
+    int id;
+
+}Pessoa;
+
+void puxar_info(Pessoa * pessoa, int qtd_pessoas){
+    int i;
+    for(i=0;i<qtd_pessoas;i++){
+        printf("\nNome do pessoa: %s", pessoa[i].nome);
+        printf("\nIdade: %d", pessoa[i].idade);
+        printf("\nIdentificador: %d\n", pessoa[i].id);
+    } 
+}
+
+void cadastrar_pessoas(Pessoa * pessoa, int qtd_pessoas){
+    int i;
+    for(i=0;i<qtd_pessoas;i++){
+        printf("Digite o nome da %da pessoa : ", i+1);
+        scanf(" %[^\n]s", pessoa[i].nome);
+        printf("Digite o numero do documento da %da pessoa : ", i+1);
+        scanf("%d", &pessoa[i].id);
+        printf("Digite a idade da %da pessoa : ", i+1);
+        scanf("%d", &pessoa[i].idade);
+    } 
+}
+
+void alt_idade(Pessoa * pessoa){
+    int idd;
+    float n_idade;
+    printf("Digite o Identificador do pessoa que deseja alterar a idade: ");
+    scanf("%d", &idd);
+    printf("Digite a nova idade da pessoa: ");
+    scanf("%f", &n_idade);
+    pessoa[idd].idade = n_idade;
+    
+}
+
+void maiormenor(Pessoa * pessoa, int qtd_pessoas){
+    int i;
+    int maior, menor;
+    float salmaior = 0;
+    float salmenor = 9999999999999999;
+    for(i=0;i<qtd_pessoas;i++){
+        if(pessoa[i].idade > salmaior){
+            salmaior = pessoa[i].idade;
+            maior = pessoa[i].id;
+        }
+        if(pessoa[i].idade < salmenor){
+            salmenor = pessoa[i].idade;
+            menor = pessoa[i].id;
+        }
+    }
+    printf("Pessoa com maior idade: \nNome: %s\nDocumento identificador: %d\nIdade: %d\n", pessoa[maior].nome, pessoa[maior].id, pessoa[maior].idade);
+    printf("Pessoa com menor idade: \nNome: %s\nDocumento identificador: %d\nIdade: %d\n", pessoa[menor].nome, pessoa[menor].id, pessoa[menor].idade);
+
+
+}
+
+void main(){
+    //setlocale(LC_ALL, "Portuguese");
+    int qtd_pessoas;
+    printf("Digite a quantidade de pessoas a ser cadastrada: ");
+    scanf("%d", &qtd_pessoas);
+    Pessoa * vetor_de_pessoas = (Pessoa*) malloc(qtd_pessoas*sizeof(Pessoa));
+    if (vetor_de_pessoas==NULL){
+        printf("Erro de alocação de memoria");
+        exit(1);
+    };
+    
+    cadastrar_pessoas(vetor_de_pessoas, qtd_pessoas);
+    puxar_info(vetor_de_pessoas, qtd_pessoas);
+    maiormenor(vetor_de_pessoas, qtd_pessoas);
+    alt_idade(vetor_de_pessoas);
+    puxar_info(vetor_de_pessoas, qtd_pessoas);
+    maiormenor(vetor_de_pessoas, qtd_pessoas);
+    free(vetor_de_pessoas);
+
+}
