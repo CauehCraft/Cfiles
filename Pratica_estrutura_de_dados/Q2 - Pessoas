@@ -30,34 +30,39 @@ void cadastrar_pessoas(Pessoa * pessoa, int qtd_pessoas){
     } 
 }
 
-void alt_idade(Pessoa * pessoa){
-    int idd;
+void alt_idade(Pessoa * pessoa, int qtd_pessoas){
+    int idd, i;
     float n_idade;
+    //int tam = sizeof(pessoa); //tentei, não consegui, lastimavel ;-;
+    //printf("tamanho = %d", tam); 
     printf("Digite o Identificador do pessoa que deseja alterar a idade: ");
     scanf("%d", &idd);
-    printf("Digite a nova idade da pessoa: ");
-    scanf("%f", &n_idade);
-    pessoa[idd].idade = n_idade;
-    
+    for(i=0;i<qtd_pessoas;i++){
+        if(pessoa[i].id == idd){
+            printf("Digite a nova idade da pessoa: ");
+            scanf("%f", &n_idade);
+            pessoa[i].idade = n_idade;
+        }
+    }
 }
 
 void maiormenor(Pessoa * pessoa, int qtd_pessoas){
     int i;
     int maior, menor;
-    float salmaior = 0;
-    float salmenor = 9999999999999999;
+    int idade_maior = 0;
+    float idade_menor = 9999999999999999;
     for(i=0;i<qtd_pessoas;i++){
-        if(pessoa[i].idade > salmaior){
-            salmaior = pessoa[i].idade;
-            maior = pessoa[i].id;
+        if(pessoa[i].idade > idade_maior){
+            idade_maior = pessoa[i].idade;
+            maior = i;
         }
-        if(pessoa[i].idade < salmenor){
-            salmenor = pessoa[i].idade;
-            menor = pessoa[i].id;
+        if(pessoa[i].idade < idade_menor){
+            idade_menor = pessoa[i].idade;
+            menor = i;
         }
     }
-    printf("Pessoa com maior idade: \nNome: %s\nDocumento identificador: %d\nIdade: %d\n", pessoa[maior].nome, pessoa[maior].id, pessoa[maior].idade);
-    printf("Pessoa com menor idade: \nNome: %s\nDocumento identificador: %d\nIdade: %d\n", pessoa[menor].nome, pessoa[menor].id, pessoa[menor].idade);
+    printf("\n* Pessoa com maior idade: \nNome: %s\nDocumento identificador: %d\nIdade: %d\n", pessoa[maior].nome, pessoa[maior].id, pessoa[maior].idade);
+    printf("* Pessoa com menor idade: \nNome: %s\nDocumento identificador: %d\nIdade: %d\n", pessoa[menor].nome, pessoa[menor].id, pessoa[menor].idade);
 
 
 }
@@ -76,7 +81,7 @@ void main(){
     cadastrar_pessoas(vetor_de_pessoas, qtd_pessoas);
     puxar_info(vetor_de_pessoas, qtd_pessoas);
     maiormenor(vetor_de_pessoas, qtd_pessoas);
-    alt_idade(vetor_de_pessoas);
+    alt_idade(vetor_de_pessoas, qtd_pessoas);
     puxar_info(vetor_de_pessoas, qtd_pessoas);
     maiormenor(vetor_de_pessoas, qtd_pessoas);
     free(vetor_de_pessoas);
