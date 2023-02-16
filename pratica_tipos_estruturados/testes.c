@@ -25,7 +25,17 @@ Turma* criar_turma(char id){
         turma->alunos[i] = NULL;
     }
     return turma;
+}
 
+void imprime_turmas(Turma** turmas, int n){
+	int i;
+	printf("\nComecou...\n");
+	for(i=0;i<n;i++){
+		if(turmas[i]->id!=NULL){
+			printf("Turma %c\n", turmas[i]->id);
+		}
+		else printf("Erro %d\n", i);
+	}
 }
 
 int main(){
@@ -46,17 +56,30 @@ int main(){
             case 1:
                 printf("Criando nova turma...\nDigite um id: ");
                 scanf(" %c", &id);
+                int exist = 0;
                 for(i=0;i<MAX_TURMAS;i++){
-                    printf("id da turma %c", turmas[i].id);
-                    if(turmas[i] == NULL){
-                        turmas[i] = criar_turma(id);
-                        printf("Turma %c criada com sucesso", id);
+                    printf("\nid da turma ->%c", turmas[i].id);
+                    if(turmas[i].id == id){
+                        //turmas[i] = *criar_turma(id);
+                        printf("\nTurma %c ja existente.", id);
+                        exist = 1;
                     }
-                    else printf("Erro!");
-                    
+                    else printf("\n[IGNORAR] Turma inexistente!\n");
+                }
+                if(exist == 0){
+                for(i=0;i<MAX_TURMAS;i++){
+                    if(turmas[i].id == NULL){
+                        turmas[i] = *criar_turma(id);
+                        printf("Turma %c criada com sucesso", id);
+                        break;
+                    }
+                    else printf("[IGNORAR] Erro aleatorio e ignoravel");
+                }
                 }
                 break;
             case 2:
+            	printf("Comecando a 2...");
+            	imprime_turmas(&turmas, MAX_TURMAS);
                 printf("Caso 2");
                 break;
             case 3:
@@ -75,5 +98,7 @@ int main(){
         }
 
         } //end loop
+    
+    free(turmas);
     return 0;
 }
