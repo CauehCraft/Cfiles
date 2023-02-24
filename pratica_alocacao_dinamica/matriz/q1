@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main(){
+    char **mat;
+    //m - linhas
+    //n - colunas
+    int m, n, i, ii, loop = 0, ext_costa = 0;
+
+    //pedindo ao usuario o numero de linhas e colunas
+    while(loop==0){
+        printf("Digite o numero de linhas e colunas: ");
+        scanf("%d %d", &m, &n);
+        if(m>=1 && n<= 1000){
+            loop = 1;
+        } else printf("Digite valores de linhas e colunas que estejam dentro das restricoes (1 <= Linhas, Colunas <= 1000)\n");
+    }
+    mat = malloc(m*sizeof(char*));
+    for(i=0;i<m;i++){
+        mat[i] = malloc(n*sizeof(char));
+    }
+
+    //preenchendo a matriz
+    for(i=0;i<m;i++){
+        for(ii=0;ii<n;ii++){
+            scanf(" %c", &mat[i][ii]);
+        }
+        printf("\n");
+    }
+
+    //imprimindo a matriz na tela para fins de teste visual de fucionalidade
+    printf("Valores na matriz:\n");
+    for(i=0;i<m;i++){
+        for(ii=0;ii<n;ii++){
+            printf("%c ", mat[i][ii]);
+        }
+        printf("\n");
+    }
+
+    //calculando quantas costas existem no mapa fornecido
+    for(i=0;i<m;i++){
+        for(ii=0;ii<n;ii++){
+            if(mat[i][ii] == '#' && ( ((i==0 || ii==0) || (i==m-1 || ii==n-1)) ) ) ext_costa++;
+                else if ( mat[i][ii] == '#' && (mat[i+1][ii] == '.' || mat[i-1][ii] == '.' || mat[i][ii+1] == '.' || mat[i][ii-1] == '.')) ext_costa++;
+        }
+    }
+    printf("Se nada deu errado, numero de costas: %d\n", ext_costa);
+
+    //liberando a memoria
+    for(i=0;i<m;i++) free(mat[i]);
+    free(mat);
+    return 0;
+}
