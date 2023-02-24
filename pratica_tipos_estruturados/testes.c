@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #define MAX_VAGAS 4
 #define MAX_TURMAS 4
 
@@ -39,7 +40,18 @@ void imprime_turmas(Turma** turmas, int n){
 }
 
 void matricula_aluno(Turma* turma, int mat, char* nome){
-
+    int j;
+    for(j=0;j<MAX_VAGAS;j++){
+        turma->alunos[j] = (Aluno*)malloc(sizeof(Aluno));
+    }
+    turma->alunos[MAX_VAGAS-turma->vagas]->mat = mat;
+    strcpy(turma->alunos[MAX_VAGAS-turma->vagas]->nome, nome);
+    //turma->alunos[MAX_VAGAS-turma->vagas]->nome = nome;
+    
+    for(j=0;j<3;j++){
+        turma->alunos[MAX_VAGAS-(turma->vagas)]->notas[j] = 0;
+    } 
+    turma->vagas--;
 }
 
 
@@ -114,7 +126,7 @@ int main(){
                     scanf("%d", &mat);
                     printf("Digite o nome: ");
                     scanf(" %[^\n]s", nome);
-                    matricula_aluno(turmas[id], mat, nome);
+                    matricula_aluno(turmas[i], mat, &nome);
                     printf("Aluno matriculado com sucesso!");
                     break;
                 } else printf("Nao existe vaga nesta turma ou o id esta incorreto.");}
