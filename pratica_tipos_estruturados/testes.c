@@ -19,7 +19,7 @@ typedef struct turma {
 
 Turma* criar_turma(char id){
     int i;
-    Turma* turma = (Turma*) malloc(sizeof(Turma));
+    Turma * turma = (Turma*) malloc(sizeof(Turma));
     turma->id = id;
     for(i=0;i<MAX_VAGAS;i++){
         turma->alunos[i] = NULL;
@@ -31,7 +31,7 @@ void imprime_turmas(Turma** turmas, int n){
 	int i;
 	printf("\nComecou...\n");
 	for(i=0;i<n;i++){
-		if(turmas[i]->id!=NULL){
+		if(turmas[i] != NULL){
 			printf("Turma %c\n", turmas[i]->id);
 		}
 		else printf("Erro %d\n", i);
@@ -44,6 +44,9 @@ int main(){
     for(i=0;i<MAX_VAGAS;i++){
         turmas->alunos[i] = NULL;
     }
+    if(turmas == NULL){
+        printf("Erro de alocação!");
+    }
     //Turma* turmas[MAX_TURMAS];
     char id;
     int loop = 0;
@@ -52,25 +55,27 @@ int main(){
         printf("\nMENU:\n1 – Criar turma\n2 – Listar turmas\n3 – Matricular aluno\n4 – Lancar notas\n5 – Listar alunos\n6 – Sair\n");
         printf("Digite sua opcao: ");
         scanf("%d", &op);
+        int exist = 0;
         switch(op){
             case 1:
                 printf("Criando nova turma...\nDigite um id: ");
                 scanf(" %c", &id);
-                int exist = 0;
+                
                 for(i=0;i<MAX_TURMAS;i++){
                     printf("\nid da turma ->%c", turmas[i].id);
                     if(turmas[i].id == id){
                         //turmas[i] = *criar_turma(id);
-                        printf("\nTurma %c ja existente.", id);
+                        printf("\nTurma (%c) ja existente no slot (%d).", id, i);
                         exist = 1;
+                        break;
                     }
-                    else printf("\n[IGNORAR] Turma inexistente!\n");
+                    else printf("\n[IGNORAR] Turma (%c) nao esta neste slot!", id);
                 }
                 if(exist == 0){
                 for(i=0;i<MAX_TURMAS;i++){
-                    if(turmas[i].id == NULL){
+                    if(!turmas[i].id){
                         turmas[i] = *criar_turma(id);
-                        printf("Turma %c criada com sucesso", id);
+                        printf("\nTurma %c criada com sucesso no slot (%d)\n", id, i);
                         break;
                     }
                     else printf("[IGNORAR] Erro aleatorio e ignoravel");
