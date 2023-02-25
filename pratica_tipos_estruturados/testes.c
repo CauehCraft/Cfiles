@@ -84,13 +84,13 @@ int main(){ //Inicio da funcao principal do codigo
             case 3: //case 3 para matricular um aluno na turma fornecida pelo usuario e armazenar seu nome e sua matricula
                 printf("\nDigite o id da turma: ");
                 scanf(" %c", &id);
-                turm = procura_turma(&turmas, turmas_criadas, id);
+                turm = procura_turma((Turma**)&turmas, turmas_criadas, id);
                 if(turm!= NULL && turm->vagas > 0){
                         printf("Matriculando aluno...\nDigite a matricula: ");
                         scanf("%d", &mat);
                         printf("Digite o nome: ");
                         scanf(" %[^\n]s", nome);
-                        matricula_aluno(turm, mat, &nome);
+                        matricula_aluno(turm, mat, (char*)&nome);
                         printf("Aluno matriculado com sucesso!\n");
                         break;
                 } else printf("Nao existe vaga nesta turma ou o id esta incorreto.\n");
@@ -98,7 +98,7 @@ int main(){ //Inicio da funcao principal do codigo
             case 4://Case 4 para lancar as notas de todos os alunos de uma turma fornecida pelo usuario
                 printf("\nLancando notas...\nDigite o id da turma: ");
                 scanf(" %c", &id);
-                turm = procura_turma(&turmas, turmas_criadas, id);
+                turm = procura_turma((Turma**)&turmas, turmas_criadas, id);
                 if(turm != NULL){
                     lanca_notas(turm);
                     break;
@@ -107,7 +107,7 @@ int main(){ //Inicio da funcao principal do codigo
             case 5://Case 5 para informar o nome, a matricula e a media de todos os alunos da turma fornecida pelo usuario
                 printf("\nListando alunos...\nDigite o id da turma: ");
                 scanf(" %c", &id);
-                turm = procura_turma(&turmas, turmas_criadas, id);
+                turm = procura_turma((Turma**)&turmas, turmas_criadas, id);
                 if(turm!= NULL){
                     imprime_alunos(turm);
                     break;
@@ -120,7 +120,7 @@ int main(){ //Inicio da funcao principal do codigo
             default:
                 break;
         }} //end loop
-    for (i=0;i<MAX_TURMAS;i++) free(turmas[i]->alunos); //liberando o espaco alocado dos vetores
-    for (i=0;i<MAX_TURMAS;i++) free(turmas[i]);
+    for (i=0;i<turmas_criadas;i++) for(j=0;j<MAX_VAGAS-turmas[i]->vagas;j++) free(turmas[i]->alunos[j]); //liberando o espaco alocado dos vetores
+    for (i=0;i<turmas_criadas;i++) free(turmas[i]);
     return 0;
 }
