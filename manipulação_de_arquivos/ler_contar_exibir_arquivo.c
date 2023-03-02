@@ -5,13 +5,16 @@
 
 int main() {
     FILE * al_notas;
+    FILE * resultados;
     char * aluno = (char*) malloc(tam_linha*sizeof(char));
     int nlinhas = 0;
     char *c;
+    char letter;
     //verificando alocacao de aluno
     if (aluno == NULL) printf("Erro de alocação.");
     //lendo arquivo
     al_notas = fopen("entrada_q3.txt", "rt");
+    resultados = fopen("resultados.txt", "wt");
     //verificando se o arquivo foi lido com sucesso.
     if (al_notas == NULL) {
         printf("Erro ao abrir o arquivo.\n");
@@ -20,24 +23,14 @@ int main() {
     //contando as linhas do arquivo
    
     while(c = fgets(aluno, tam_linha, al_notas)){
-        printf("%s", aluno);
-        if(*c == ' ') break;
+        printf("%s", aluno); 
+        fputs(aluno, resultados);
         nlinhas++;
+        if(*c == ' ') break;
     }
     printf("\nNumero de linhas: %d\n", nlinhas);
-     /*
-    for(nlinhas=0;nlinhas<10;nlinhas++){
-        
-        printf("%c", *fgets(aluno, tam_linha, al_notas));
-        printf("%s", aluno);
-    }
 
-    */
-    //primeira linha
-    
-    
 
-    //fputs("Hello World!", fp);
     if(fclose(al_notas)!=0) printf("Erro ao fechar arquivo.");
     free(aluno);
     return 0;
