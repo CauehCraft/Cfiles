@@ -26,7 +26,7 @@ int main() {
         printf("%s", aluno); 
         fputs(aluno, resultados);
         nlinhas++;
-        if(*c == ' ') break;
+        if(*c == EOF) break;
     }
     printf("\nNumero de linhas: %d\n", nlinhas);
 
