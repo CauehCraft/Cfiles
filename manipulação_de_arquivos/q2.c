@@ -6,8 +6,8 @@
 int main() {
     FILE *inteiros, *resultados;
     char * linha = (char*) malloc(tam_linha*sizeof(char));
-    int nlinhas = 0, n = 10, i;
-    int numeros[100];
+    int numeros[100], maior = 0, menor, i=0;
+    float media = 0;
 
     //verificando alocacao de linha
     if (linha == NULL) printf("Erro de alocação.");
@@ -20,15 +20,16 @@ int main() {
         return 1;
     }
    //lendo cada linha do arquivo, salvando os dados, fazendo calculos e salvando no arquivo Resultados.
-    
-    
-    
-    for(i=0;i<n;i++){
-        fscanf(inteiros, "%d\n", numeros);
+    while(fscanf(inteiros, "%d", &numeros[i])!=EOF){
         printf("%d\n", numeros[i]);
+        if(numeros[i]>maior) maior = numeros[i];
+        if(menor==NULL) menor=maior;
+        if(numeros[i]<menor) menor=numeros[i];
+        media += numeros[i];
+        i++;
     }
-    printf("\nNumero de linhas: %d\n", nlinhas);
-
+    printf("\nNumero de linhas: %d\nMaior: %d\nMenor: %d\nMedia: %f\n", i, maior, menor, media/i);
+    
 
     if(fclose(inteiros)!=0) printf("Erro ao fechar arquivo.");
     free(linha);
