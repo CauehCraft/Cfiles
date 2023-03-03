@@ -4,15 +4,15 @@
 #define tam_linha 150
 
 int main() {
-    FILE * al_notas;
-    FILE * resultados;
+    FILE *al_notas, *resultados;
     char * aluno = (char*) malloc(tam_linha*sizeof(char));
     int nlinhas = 0;
-    char *c;
-    char letter;
+    char nome[100];
+    float n1, n2, n3, media;
+
     //verificando alocacao de aluno
     if (aluno == NULL) printf("Erro de alocação.");
-    //lendo arquivo
+    //lendo arquivos
     al_notas = fopen("entrada_q3.txt", "rt");
     resultados = fopen("resultados.txt", "wt");
     //verificando se o arquivo foi lido com sucesso.
@@ -20,13 +20,13 @@ int main() {
         printf("Erro ao abrir o arquivo.\n");
         return 1;
     }
-    //contando as linhas do arquivo
-   
-    while(c = fgets(aluno, tam_linha, al_notas)){
+   //lendo cada linha do arquivo, salvando os dados e fazendo  calculo da media e salvando no arquivo Resultados.
+    while((fgets(aluno, tam_linha, al_notas))!=NULL){
         printf("%s", aluno); 
-        fputs(aluno, resultados);
+        sscanf(aluno, "%[^\t]\t%f\t%f\t%f", nome, &n1, &n2, &n3);
+        media = (n1+n2+n3)/3;
         nlinhas++;
-        if(*c == EOF) break;
+        fprintf(resultados, "%s\t%.2f\t%s\n", nome, media, (media>=7)?"Aprovado":"Reprovado");
     }
     printf("\nNumero de linhas: %d\n", nlinhas);
 
