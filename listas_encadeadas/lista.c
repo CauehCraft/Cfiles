@@ -96,3 +96,43 @@ Lista* lst_insere_ordenada(Lista * l, int v){
 	}
 	return l;
 }
+
+int maiores(Lista* l, int n){
+    Lista* p;
+    int total = 0;
+    for(p = l; p != NULL; p = p->prox)
+        if(p->info > n)
+            total += 1;
+    return total;
+        //printf(" Info = %d \n", p->info);
+}
+
+Lista* ultimo(Lista* l){
+    Lista* p;
+    for(p = l; p != NULL; p = p->prox)
+        if(p->prox == NULL)
+            return p;
+}
+
+Lista* contatena(Lista* l1, Lista* l2){
+    Lista* p;
+    for(p = l1; p != NULL; p = p->prox){
+        if(p->prox == NULL){
+            p->prox = l2;
+            return l1;
+        }
+    }        
+    
+}
+
+Lista* retira_n(Lista* l, int n){
+    Lista* p;
+    int total = 0;
+    for(p = l; p != NULL; p = p->prox)
+        if(p->info == n)
+            total += 1;
+    int i;
+    for(i=0; i<4; i++){
+        lst_retira(l, n);
+    }
+}
